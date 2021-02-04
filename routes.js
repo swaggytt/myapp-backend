@@ -1,39 +1,44 @@
 const express = require("express");
-const students = require("./students.json");
-
 const router = express.Router();
+const controllers = require("./controllers");
 
-router.get("/", (req, res) => {
-  res.send("Hola");
-});
+router.get("/tasks", (req, res) => controllers.getTasksController(req, res));
 
-router.get("/students", (req, res) => {
-  res.json(students);
-});
+router.post("/task", (req, res) => controllers.createTaskController(req, res));
 
-router.get("/students/:id", (req, res) => {
-  res.json(students.find((students) => students.id === req.params.id));
-});
+router.put("/task", (req, res) => controllers.updateTaskController(req, res));
 
-router.post("/students", (req, res) => {
-  students.push(req.body);
-  res.status(201); // created
-  res.json(req.body);
-});
+router.delete("/task/:id", (req, res) =>
+  controllers.deleteTaskController(req, res)
+);
 
-router.put("/students/:id", (req, res) => {
-  const updateIndex = students.findIndex(
-    (students) => students.id === req.params.id
-  );
-  res.json(Object.assign(students[updateIndex], req.body));
-});
+// router.get("/students", (req, res) => {
+//   res.json(students);
+// });
 
-router.delete("/students/:id", (req, res) => {
-  const delIndex = students.findIndex(
-    (students) => students.id === req.params.id
-  );
-  students.splice(delIndex, 1);
-  res.status(204).send();
-});
+// router.get("/students/:id", (req, res) => {
+//   res.json(students.find((students) => students.id === req.params.id));
+// });
+
+// router.post("/students", (req, res) => {
+//   students.push(req.body);
+//   res.status(201); // created
+//   res.json(req.body);
+// });
+
+// router.put("/students/:id", (req, res) => {
+//   const updateIndex = students.findIndex(
+//     (students) => students.id === req.params.id
+//   );
+//   res.json(Object.assign(students[updateIndex], req.body));
+// });
+
+// router.delete("/students/:id", (req, res) => {
+//   const delIndex = students.findIndex(
+//     (students) => students.id === req.params.id
+//   );
+//   students.splice(delIndex, 1);
+//   res.status(204).send();
+// });
 
 module.exports = router;
